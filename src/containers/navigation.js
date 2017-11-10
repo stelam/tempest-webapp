@@ -15,6 +15,9 @@ import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import FaceIcon from 'material-ui-icons/Face';
 import BeenHereIcon from 'material-ui-icons/BeenHere';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { bindActionCreators } from 'redux';
+
+import { toggleNavigation } from '../actions/index';
 
 export const DRAWER_WIDTH = 240;
 

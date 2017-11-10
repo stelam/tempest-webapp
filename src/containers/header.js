@@ -17,8 +17,10 @@ import FaceIcon from 'material-ui-icons/Face';
 import BeenHereIcon from 'material-ui-icons/BeenHere';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { toggleNavigation } from '../actions/index';
 import { DRAWER_WIDTH } from './navigation';
 
 const styles = theme => ({
@@ -55,30 +57,19 @@ const styles = theme => ({
 });
 
 class PersistentDrawer extends React.Component {
-  state = {
-    open: false,
-  };
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
 
   render() {
-    const { classes, theme } = this.props;
-
+    const { classes, theme, navigationOpened } = this.props;
+    
     return (
       <div>
-          <AppBar className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
-            <Toolbar disableGutters={!this.state.open}>
+          <AppBar className={classNames(classes.appBar, navigationOpened && classes.appBarShift)}>
+            <Toolbar disableGutters={!navigationOpened}>
               <IconButton
                 color="contrast"
                 aria-label="open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(classes.menuButton, this.state.open && classes.hide)}
+                onClick={() => this.props.toggleNavigation(true)}
+                className={classNames(classes.menuButton, navigationOpened && classes.hide)}
               >
                 <MenuIcon />
               </IconButton>
@@ -99,8 +90,14 @@ PersistentDrawer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    
+    navigationOpened: state.navigationOpened
   }
 }
 
-export default withStyles(styles, { withTheme: true })(PersistentDrawer);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ toggleNavigation : toggleNavigation }, dispatch);
+}
+
+export default withStyles(styles, { withTheme: true })(
+  connect(mapStateToProps, mapDispatchToProps)(PersistentDrawer)
+);
