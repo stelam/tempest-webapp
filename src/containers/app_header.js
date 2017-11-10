@@ -56,7 +56,7 @@ const styles = theme => ({
   }
 });
 
-class PersistentDrawer extends React.Component {
+class AppHeader extends React.Component {
 
   render() {
     const { classes, theme, navigationOpened } = this.props;
@@ -83,7 +83,7 @@ class PersistentDrawer extends React.Component {
   }
 }
 
-PersistentDrawer.propTypes = {
+AppHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
@@ -95,9 +95,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleNavigation : toggleNavigation }, dispatch);
+  return bindActionCreators({ toggleNavigation }, dispatch);
 }
 
 export default withStyles(styles, { withTheme: true })(
-  connect(mapStateToProps, mapDispatchToProps)(PersistentDrawer)
+  connect(mapStateToProps, mapDispatchToProps)(AppHeader)
 );

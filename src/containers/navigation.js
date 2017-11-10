@@ -15,7 +15,9 @@ import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import FaceIcon from 'material-ui-icons/Face';
 import BeenHereIcon from 'material-ui-icons/BeenHere';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import { toggleNavigation } from '../actions/index';
 
@@ -43,21 +45,10 @@ const styles = theme => ({
   },
 });
 
-class PersistentDrawer extends React.Component {
-  state = {
-    open: false,
-  };
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
+class Navigation extends React.Component {
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, navigationOpened } = this.props;
 
     return (
         <Drawer
@@ -65,11 +56,11 @@ class PersistentDrawer extends React.Component {
           classes={{
             paper: classes.drawerPaper,
           }}
-          open={this.state.open}
+          open={navigationOpened}
         >
           <div className={classes.drawerInner}>
             <div className={classes.drawerHeader}>
-              <IconButton onClick={this.handleDrawerClose}>
+              <IconButton onClick={() => this.props.toggleNavigation(false)}>
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>
             </div>
@@ -104,9 +95,21 @@ class PersistentDrawer extends React.Component {
   }
 }
 
-PersistentDrawer.propTypes = {
+Navigation.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(PersistentDrawer);
+function mapStateToProps(state) {
+  return {
+    navigationOpened: state.navigationOpened
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ toggleNavigation }, dispatch);
+}
+
+export default withStyles(styles, { withTheme: true })(
+  connect(mapStateToProps, mapDispatchToProps)(Navigation)
+);
