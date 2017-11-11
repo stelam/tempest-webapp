@@ -1,7 +1,9 @@
+export const TOGGLE_NAVIGATION = 'TOGGLE_NAVIGATION';
+
 export function toggleNavigation(navigationOpened) {
+
   return {
-    //TODO: Define types as constants
-    type: 'TOGGLE_NAVIGATION',
+    type: TOGGLE_NAVIGATION,
     payload: navigationOpened
   };
 }
