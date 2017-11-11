@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
 
-import Header from '../containers/header';
+import AppHeader from '../containers/app_header';
 import Navigation from '../containers/navigation';
 import MainContent from '../containers/main_content';
 
@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
-          <Header />
+          <AppHeader />
           <Navigation />
           <MainContent />
         </div>
