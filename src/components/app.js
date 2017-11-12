@@ -34,13 +34,13 @@ class App extends Component {
 
     return (
       <div className={classes.root}>
-        <div className={classes.appFrame}>
-          <AppHeader />
-          <Navigation />
-          <BrowserRouter>
-            <MainContent />
-          </BrowserRouter>
-        </div>
+        <BrowserRouter>
+          <div className={classes.appFrame}>
+            <AppHeader />
+            <Navigation />
+              <MainContent />
+          </div>
+        </BrowserRouter>
       </div>
     );
   }

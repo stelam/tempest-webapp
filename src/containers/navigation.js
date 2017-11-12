@@ -18,6 +18,7 @@ import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom'
 
 import { toggleNavigation } from '../actions/index';
 
@@ -43,6 +44,9 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  menuLink: {
+    textDecoration: 'none'
+  }
 });
 
 class Navigation extends React.Component {
@@ -65,24 +69,30 @@ class Navigation extends React.Component {
               </IconButton>
             </div>
             <List>
-              <ListItem button>
-                <ListItemIcon>
-                  <FaceIcon />
-                </ListItemIcon>
-                <ListItemText primary="Members" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <BeenHereIcon />
-                </ListItemIcon>
-                <ListItemText primary="Node war attendance" />
-              </ListItem>
+              <Link to="/" className={classes.menuLink}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <BeenHereIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Node war attendance" />
+                </ListItem>
+              </Link>
+              <Link to="/members" className={classes.menuLink}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <FaceIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Members" />
+                </ListItem>
+              </Link>
             </List>
             <Divider />
             <List>
-              <ListItem button>
-                <ListItemText primary="Trash" />
-              </ListItem>
+              <Link to="/login" className={classes.menuLink}>
+                <ListItem button>
+                  <ListItemText primary="Logout" />
+                </ListItem>
+              </Link>
               <ListItem button component="a" href="#simple-list">
                 <ListItemText primary="Spam" />
               </ListItem>
@@ -111,5 +121,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withStyles(styles, { withTheme: true })(
-  connect(mapStateToProps, mapDispatchToProps)(Navigation)
+  withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(Navigation)
+  )
 );

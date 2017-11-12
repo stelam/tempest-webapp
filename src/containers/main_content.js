@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 import LoginForm from './login_form';
 import NodeWarIndex from '../components/node_war_index';
+import MemberList from './member_list';
 
 import { DRAWER_WIDTH } from './navigation';
 
@@ -53,12 +54,11 @@ class MainContent extends Component {
 
     return (
       <main className={classNames(classes.content, this.props.navigationOpened && classes.contentShift)}>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/login" component={LoginForm} />
-            <Route path="/" component={NodeWarIndex} />
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route path="/login" component={LoginForm} />
+          <Route path="/members" component={MemberList} />
+          <Route path="/" component={NodeWarIndex} />
+        </Switch>
       </main>
     );
   }
@@ -78,7 +78,7 @@ function mapStateToProps(state) {
 
 
 export default withStyles(styles, { withTheme: true })(
-  connect(mapStateToProps)(
-    withRouter(MainContent)
+  withRouter(
+    connect(mapStateToProps)(MainContent)
   )
 );
