@@ -19,7 +19,7 @@ const styles = theme => ({
     boxSizing: 'border-box',
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create('padding', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -32,8 +32,8 @@ const styles = theme => ({
     },
   },
   contentShift: {
-    marginLeft: 0,
-    transition: theme.transitions.create('margin', {
+    paddingLeft: DRAWER_WIDTH + theme.spacing.unit * 3,
+    transition: theme.transitions.create('padding', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),

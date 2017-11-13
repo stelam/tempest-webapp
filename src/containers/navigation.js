@@ -93,9 +93,6 @@ class Navigation extends React.Component {
                   <ListItemText primary="Logout" />
                 </ListItem>
               </Link>
-              <ListItem button component="a" href="#simple-list">
-                <ListItemText primary="Spam" />
-              </ListItem>
             </List>
 
           </div>
