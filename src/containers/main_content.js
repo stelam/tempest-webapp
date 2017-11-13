@@ -16,6 +16,7 @@ const styles = theme => ({
     width: '100%',
     marginLeft: -DRAWER_WIDTH,
     flexGrow: 1,
+    boxSizing: 'border-box',
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
