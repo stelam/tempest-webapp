@@ -7,6 +7,11 @@ import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { reduxForm, Field } from 'redux-form';
+
+import { login } from '../actions/index';
 
 const styles = theme => ({
   card: {
@@ -36,43 +41,69 @@ const styles = theme => ({
   },
 });
 
-function LoginForm(props) {
-  const { classes } = props;
-  const bull = <span className={classes.bullet}>•</span>;
+class LoginForm extends React.Component {
 
-  return (
-    <form>
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography type="body1" className={classes.title}>
-            You need to login to continue.
-          </Typography>
-          <div className={classes.details}>
-          <TextField
-            id="email"
-            label="email"
-            className={classes.textField}
-          />
-          <TextField
-            id="password"
-            label="Password"
-            className={classes.textField}
-            type="password"
-            autoComplete="current-password"
-            margin="normal"
-          />
-        </div>
-        </CardContent>
-        <CardActions>
-          <Button className={classes.loginButton}>Login</Button>
-        </CardActions>
-      </Card>
-    </form>
-  );
+  // stubbed login 
+  login(values) {
+    this.props.login(true);
+    this.props.history.push('/');
+  }
+
+  renderTextField({input, ...customAttributes}) {
+    return (
+      <TextField
+        {...input}
+        {...customAttributes}
+        className={this.props.classes.textField}
+      />
+    );
+  }
+
+
+  render() {
+    const { classes } = this.props;
+    const bull = <span className={classes.bullet}>•</span>;
+    const { handleSubmit } = this.props;
+
+    return (
+      <form onSubmit={handleSubmit(this.login.bind(this))}>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography type="body1" className={classes.title}>
+              You need to login to continue.
+            </Typography>
+            <div className={classes.details}>
+
+            <Field name="email" id="email" label="email" component={this.renderTextField.bind(this)} />
+            <Field margin="normal" type="password" id="password" label="password" name="password" component={this.renderTextField.bind(this)} />
+
+          </div>
+          </CardContent>
+          <CardActions>
+            <Button type="submit" className={classes.loginButton}>Login</Button>
+          </CardActions>
+        </Card>
+      </form>
+    );
+  }
 }
 
 LoginForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginForm);
+function mapStateToProps(state) {
+  return {
+    loggedIn: state.loggedIn
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ login }, dispatch);
+}
+
+export default withStyles(styles)(
+  reduxForm({form: 'LoginForm'})(
+    connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+  )
+);

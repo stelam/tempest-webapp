@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
+import { BrowserRouter, withRouter } from 'react-router-dom';
 
 import AppHeader from '../containers/app_header';
 import Navigation from '../containers/navigation';
@@ -28,20 +29,18 @@ const styles = theme => ({
 
 class App extends Component {
 
-  state = {
-    open: false,
-  };
-
   render() {
     const { classes, theme } = this.props;
 
     return (
       <div className={classes.root}>
-        <div className={classes.appFrame}>
-          <AppHeader />
-          <Navigation />
-          <MainContent />
-        </div>
+        <BrowserRouter>
+          <div className={classes.appFrame}>
+            <AppHeader />
+            <Navigation />
+              <MainContent />
+          </div>
+        </BrowserRouter>
       </div>
     );
   }

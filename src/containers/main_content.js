@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
+import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import LoginForm from './login_form';
+import NodeWarIndex from '../components/node_war_index';
+import MemberList from './member_list';
 
 import { DRAWER_WIDTH } from './navigation';
 
@@ -12,9 +16,10 @@ const styles = theme => ({
     width: '100%',
     marginLeft: -DRAWER_WIDTH,
     flexGrow: 1,
+    boxSizing: 'border-box',
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create('padding', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -27,8 +32,8 @@ const styles = theme => ({
     },
   },
   contentShift: {
-    marginLeft: 0,
-    transition: theme.transitions.create('margin', {
+    paddingLeft: DRAWER_WIDTH + theme.spacing.unit * 3,
+    transition: theme.transitions.create('padding', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -36,26 +41,45 @@ const styles = theme => ({
 });
 
 
-class App extends Component {
+class MainContent extends Component {
 
-  state = {
-    open: false,
-  };
+  componentWillMount() {
+    if (!this.props.loggedIn && this.props.path !== '/login') {
+      this.props.history.push('/login');
+    }
+  }
 
+  
   render() {
     const { classes, theme } = this.props;
 
     return (
-      <main className={classNames(classes.content, this.state.open && classes.contentShift)}>
-        <LoginForm />
+      <main className={classNames(classes.content, this.props.navigationOpened && classes.contentShift)}>
+        <Switch>
+          <Route path="/login" component={LoginForm} />
+          <Route path="/members" component={MemberList} />
+          <Route path="/" component={NodeWarIndex} />
+        </Switch>
       </main>
     );
   }
 }
 
-App.propTypes = {
+MainContent.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(App);
+function mapStateToProps(state) {
+  return {
+    loggedIn: state.loggedIn,
+    navigationOpened: state.navigationOpened
+  }
+}
+
+
+export default withStyles(styles, { withTheme: true })(
+  withRouter(
+    connect(mapStateToProps)(MainContent)
+  )
+);

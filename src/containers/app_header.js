@@ -53,27 +53,32 @@ const styles = theme => ({
   },
   hide: {
     display: 'none',
+  },
+  logoLoggedOut: {
+    marginLeft: theme.spacing.unit * 4 
   }
 });
 
 class AppHeader extends React.Component {
 
   render() {
-    const { classes, theme, navigationOpened } = this.props;
+    const { classes, theme, navigationOpened, loggedIn } = this.props;
     
     return (
       <div>
           <AppBar className={classNames(classes.appBar, navigationOpened && classes.appBarShift)}>
             <Toolbar disableGutters={!navigationOpened}>
-              <IconButton
-                color="contrast"
-                aria-label="open drawer"
-                onClick={() => this.props.toggleNavigation(true)}
-                className={classNames(classes.menuButton, navigationOpened && classes.hide)}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography type="title" color="inherit" noWrap>
+              {loggedIn && 
+                <IconButton
+                  color="contrast"
+                  aria-label="open drawer"
+                  onClick={() => this.props.toggleNavigation(true)}
+                  className={classNames(classes.menuButton, navigationOpened && classes.hide)}
+                >
+                  <MenuIcon />
+                </IconButton>
+              }
+              <Typography className={classNames(!loggedIn && classes.logoLoggedOut)} type="title" color="inherit" noWrap>
                 Tempest Dashboard
               </Typography>
             </Toolbar>
@@ -90,7 +95,8 @@ AppHeader.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    navigationOpened: state.navigationOpened
+    navigationOpened: state.navigationOpened,
+    loggedIn: state.loggedIn
   }
 }
 

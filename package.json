@@ -26,14 +26,18 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "autosuggest-highlight": "^3.1.1",
     "babel-preset-stage-1": "^6.1.18",
     "lodash": "^4.17.0",
     "material-ui": "^1.0.0-beta.20",
     "material-ui-icons": "^1.0.0-beta.17",
     "react": "^0.14.3",
+    "react-autosuggest": "^9.3.2",
     "react-dom": "^0.14.3",
     "react-redux": "4.3.0",
     "react-router": "^4.0.0",
-    "redux": "^3.0.4"
+    "react-router-dom": "^4.0.0",
+    "redux": "^3.0.4",
+    "redux-form": "^6.6.3"
   }
 }
