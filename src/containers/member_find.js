@@ -146,7 +146,11 @@ const styles = theme => ({
   },
   textField: {
     width: '100%',
+    marginBottom: theme.spacing.unit * 2
   },
+  input: {
+    fontSize: '2rem'
+  }
 });
 
 class IntegrationAutosuggest extends React.Component {
@@ -195,7 +199,7 @@ class IntegrationAutosuggest extends React.Component {
         inputProps={{
           autoFocus: true,
           classes,
-          placeholder: 'Participation check-in toggle for a member',
+          placeholder: 'Attendance toggle for a member',
           value: this.state.value,
           onChange: this.handleChange,
         }}

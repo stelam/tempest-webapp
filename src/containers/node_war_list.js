@@ -23,8 +23,10 @@ const styles = theme => ({
   table: {
     minWidth: 100,
     '& th, & td': {
-      paddingLeft: theme.spacing.unit * 2,
-      paddingRight: theme.spacing.unit * 2
+      paddingLeft: theme.spacing.unit,
+      paddingRight: theme.spacing.unit,
+      paddingTop: 0,
+      paddingBottom: 0
     }
   },
   buttonAdd: {
