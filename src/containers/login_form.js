@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 
-import { login } from '../actions/index';
+import { authenticate } from '../actions/authentication';
 
 const styles = theme => ({
   card: {
@@ -43,10 +43,8 @@ const styles = theme => ({
 
 class LoginForm extends React.Component {
 
-  // stubbed login 
-  login(values) {
-    this.props.login(true);
-    this.props.history.push('/');
+  login(credentials) {
+    this.props.authenticate(credentials);
   }
 
   renderTextField({input, ...customAttributes}) {
@@ -74,7 +72,7 @@ class LoginForm extends React.Component {
             </Typography>
             <div className={classes.details}>
 
-            <Field name="email" id="email" label="email" component={this.renderTextField.bind(this)} />
+            <Field name="username" id="username" label="email" component={this.renderTextField.bind(this)} />
             <Field margin="normal" type="password" id="password" label="password" name="password" component={this.renderTextField.bind(this)} />
 
           </div>
@@ -94,12 +92,12 @@ LoginForm.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loggedIn: state.loggedIn
+    authentication: state.authentication
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ login }, dispatch);
+  return bindActionCreators({ authenticate }, dispatch);
 }
 
 export default withStyles(styles)(

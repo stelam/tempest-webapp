@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom'
 
 import { toggleNavigation } from '../actions/index';
+import { requestLogout } from '../actions/authentication';
 
 export const DRAWER_WIDTH = 240;
 
@@ -88,11 +89,9 @@ class Navigation extends React.Component {
             </List>
             <Divider />
             <List>
-              <Link to="/login" className={classes.menuLink}>
-                <ListItem button>
-                  <ListItemText primary="Logout" />
-                </ListItem>
-              </Link>
+              <ListItem onClick={() => this.props.requestLogout()} button>
+                <ListItemText primary="Logout" />
+              </ListItem>
             </List>
 
           </div>
@@ -114,7 +113,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleNavigation }, dispatch);
+  return bindActionCreators({ toggleNavigation, requestLogout }, dispatch);
 }
 
 export default withStyles(styles, { withTheme: true })(
