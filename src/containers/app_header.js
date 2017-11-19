@@ -62,13 +62,13 @@ const styles = theme => ({
 class AppHeader extends React.Component {
 
   render() {
-    const { classes, theme, navigationOpened, loggedIn } = this.props;
+    const { classes, theme, navigationOpened, authentication } = this.props;
     
     return (
       <div>
           <AppBar className={classNames(classes.appBar, navigationOpened && classes.appBarShift)}>
             <Toolbar disableGutters={!navigationOpened}>
-              {loggedIn && 
+              {authentication.isAuthenticated && 
                 <IconButton
                   color="contrast"
                   aria-label="open drawer"
@@ -78,7 +78,7 @@ class AppHeader extends React.Component {
                   <MenuIcon />
                 </IconButton>
               }
-              <Typography className={classNames(!loggedIn && classes.logoLoggedOut)} type="title" color="inherit" noWrap>
+              <Typography className={classNames(!authentication.isAuthenticated && classes.logoLoggedOut)} type="title" color="inherit" noWrap>
                 Tempest Dashboard
               </Typography>
             </Toolbar>
@@ -96,7 +96,7 @@ AppHeader.propTypes = {
 function mapStateToProps(state) {
   return {
     navigationOpened: state.navigationOpened,
-    loggedIn: state.loggedIn
+    authentication: state.authentication
   }
 }
 

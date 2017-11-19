@@ -9,6 +9,8 @@ import LoginForm from './login_form';
 import NodeWarIndex from '../components/node_war_index';
 import MemberList from './member_list';
 
+import { userIsAuthenticated, userIsNotAuthenticated } from '../config/redux_auth_wrapper_config';
+
 import { DRAWER_WIDTH } from './navigation';
 
 const styles = theme => ({
@@ -43,22 +45,14 @@ const styles = theme => ({
 
 class MainContent extends Component {
 
-  componentWillMount() {
-    if (!this.props.loggedIn && this.props.path !== '/login') {
-      this.props.history.push('/login');
-    }
-  }
-
-  
   render() {
-    const { classes, theme } = this.props;
-
+    const { classes, theme, authentication } = this.props;
     return (
       <main className={classNames(classes.content, this.props.navigationOpened && classes.contentShift)}>
         <Switch>
-          <Route path="/login" component={LoginForm} />
-          <Route path="/members" component={MemberList} />
-          <Route path="/" component={NodeWarIndex} />
+          <Route path="/login" component={userIsNotAuthenticated(LoginForm)} />
+          <Route path="/members" component={userIsAuthenticated(MemberList)} />
+          <Route path="/" component={userIsAuthenticated(NodeWarIndex)} />
         </Switch>
       </main>
     );
@@ -72,7 +66,7 @@ MainContent.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loggedIn: state.loggedIn,
+    authentication: state.authentication,
     navigationOpened: state.navigationOpened
   }
 }
