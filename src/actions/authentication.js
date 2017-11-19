@@ -1,10 +1,12 @@
 import axios from 'axios';
 import qs from 'qs';
+import store from 'store';
 
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const AUTHENTICATION_REQUEST = 'AUTHENTICATION_REQUEST';
 export const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
 export const AUTHENTICATION_FAILURE = 'AUTHENTICATION_FAILURE';
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 
 const API_BASE_URL = 'http://trusted-app:secret@localhost:9000/api/v1';
 
@@ -19,6 +21,8 @@ function requestAuthentication() {
 }
 
 function receiveAuthenticationResponse(user) {
+  store.set('authentication', user);
+
   return {
     type: AUTHENTICATION_SUCCESS,
     payload: {
@@ -36,6 +40,20 @@ function authenticationError(errorMessage) {
       isAuthenticated: false,
       isFetching: false,
       errorMessage,
+      user: null
+    }
+  }
+}
+
+// just frontend side for now
+export function requestLogout() {
+  store.clearAll();
+
+  return {
+    type: LOGOUT_REQUEST,
+    payload: {
+      isAuthenticated: false,
+      isFetching: false,
       user: null
     }
   }
@@ -62,7 +80,7 @@ export function authenticate(credentials) {
 
   return (dispatch) => {
     dispatch(requestAuthentication());
-    
+
     request.then(({data}) => {
       dispatch(receiveAuthenticationResponse(data));
     }).catch((error) => {
